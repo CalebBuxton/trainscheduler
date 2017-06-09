@@ -13,14 +13,19 @@ firebase.initializeApp(config);
 // Get a reference to the database service
 var database = firebase.database();
 
+var name = $("#name");
+var dest = $("#dest");
+var time = $("#time");
+var int = $("#int");
+
 $("#ent").on("click", function() {
 
-  var name = $("#name").val().trim();
-  var dest = $("#dest").val().trim();
-  var time = $("#time").val().trim();
-  var int = $("#int").val().trim();
+  var nameVal = name.val().trim();
+  var destVal = dest.val().trim();
+  var timeVal = time.val().trim();
+  var intVal = int.val().trim();
 
-  var check = [name, dest, time, int]
+  var check = [nameVal, destVal, timeVal, intVal]
   var pass = 0;
   for (var i = 0; i < check.length; i++) {
     if (check[i].length != "") {
@@ -38,7 +43,7 @@ $("#ent").on("click", function() {
 })
 
 
-function newData(name, dest, time, int) {
+function newData(nameVal, destVal, timeVal, intVal) {
   // Append to table
   $(".table").find('tbody')
   .append($('<tr>')
@@ -52,6 +57,11 @@ function newData(name, dest, time, int) {
     time: $("#time").val().trim(),
     int: $("#int").val().trim(),
   });
+
+  name.val("");
+  dest.val("");
+  time.val("");
+  int.val("");
 };
 
 
@@ -64,5 +74,8 @@ database.ref().child("trains").on("value", function(snapshot) {
 
   var data = JSON.parse(data2);
   console.log(data);
+
+
+
 
 })

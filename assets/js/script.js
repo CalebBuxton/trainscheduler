@@ -62,16 +62,53 @@ $("#ent").on("click", function(event) {
 
 
       //1440 minutes in a day
-      var runTimes = [];
-      var startTime = childSnapshot.val().time;
-      var timeFormat = "hh:mm";
-      var convertTime = moment(startTime, timeFormat)
-      console.log(convertTime);
+      // var runTimes = [];
+      // var startTime = childSnapshot.val().time;
+      // var timeFormat = "HH:mm";
+      // var convertTime = moment(startTime, timeFormat)
+      // console.log(moment(startTime, timeFormat).format("hh:mm a"))
+      // var interval = childSnapshot.val().int;
+      // var convInt = moment(interval, "mm").format("mm");
+      // console.log(convInt);
+
+      // for (i=0; i<4; i++) {
+
+
+      //   var test = moment(moment(startTime, timeFormat) + moment(interval, "m")).format("HH:mm a");
+      //   startTime = test;
+      //   runTimes.push(test);
+
+      // }
+      // console.log(runTimes)
+
+      var interval = childSnapshot.val().int;
+      var firstTime = childSnapshot.val().time;
+
+      var firstConvert = moment(firstTime, "HH:mm").subtract(1, "years");
+
+      console.log(firstConvert);
+
+      var currentTime = moment();
+
+      var diffTime = currentTime.diff(moment(firstConvert), "minutes");
+
+      console.log("Difference In Time is: " + diffTime);
+
+      var timeRemaining = diffTime % interval;
+      console.log(timeRemaining)
+
+      var minUntil = interval - timeRemaining;
+
+      console.log("Minutes until train " + minUntil);
+
+      var nextTrain = moment().add(minUntil, "minutes");
+
+      console.log("Next Arrival " + moment(nextTrain).format("h:mm A"));
 
       //Append info to the table
       $(".table").find('tbody')
       .append($('<tr>')
-        .append($('<td>'+ childSnapshot.val().name + '</td><td>'+ childSnapshot.val().dest + '</td><td>'+ childSnapshot.val().int + '</td><td>')
+        .append($('<td>'+ childSnapshot.val().name + '</td><td>'+ childSnapshot.val().dest + '</td><td>'+ childSnapshot.val().int + '</td><td>' + moment(nextTrain).format("h:mm A") + '</td><td>' + minUntil + '</td>')
           )
         );
     })
